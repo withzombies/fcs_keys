@@ -8,40 +8,43 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    container:
+      image: blacktop/ipsw
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          submodules: recursive
-
-      - name: Update submodules to latest commit
-        run: |
-          git submodule update --remote --recursive
-          git status
-
       - name: Run custom script
         run: |
-          ./update.py
+          ls /github/workspace
+          find /github/workspace
 
-      - name: Commit changes
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "Updated submodules and ran custom script [CI]" || echo "No changes to commit"
-          mkdir foobar
-          echo ok > foobar/hi
-          echo Tag "v$(date +%Y%m%d%H%M%S)"
-          ls foobar
-          echo "TAG=v$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV  # Saves the tag in GitHub environment
-
-      - name: Create release
-        uses: ncipollo/release-action@v1
-        with:
-          tag: ${{ env.TAG }}
-          name: Release ${{ env.TAG }}
-          commit: main
-          artifacts: "foobar/*"
-          draft: false
-          prerelease: false
-
+#      - name: Checkout repository
+#        uses: actions/checkout@v3
+#        with:
+#          submodules: recursive
+#
+#      - name: Run custom script
+#        run: |
+#          ./update.py
+#
+#      - name: Commit changes
+#        run: |
+#          git config --global user.name "github-actions[bot]"
+#          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+#          git add .
+#          git commit -m "Updated submodules and ran custom script [CI]" || echo "No changes to commit"
+#          mkdir foobar
+#          echo ok > foobar/hi
+#          echo Tag "v$(date +%Y%m%d%H%M%S)"
+#          ls foobar
+#          echo "TAG=v$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV  # Saves the tag in GitHub environment
+#
+#      - name: Create release
+#        uses: ncipollo/release-action@v1
+#        with:
+#          tag: ${{ env.TAG }}
+#          name: Release ${{ env.TAG }}
+#          commit: main
+#          artifacts: "foobar/*"
+#          draft: false
+#          prerelease: false
+#
+#
