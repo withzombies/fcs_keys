@@ -7,6 +7,9 @@ jobs:
   update-submodules-and-release:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     steps:
       # Checkout the repository and submodules
       - name: Checkout repository
