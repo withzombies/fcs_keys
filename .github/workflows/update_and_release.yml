@@ -1,0 +1,44 @@
+name: Update Submodules and Create Release
+
+on:
+  workflow_dispatch: # Trigger manually or change to 'push'/'schedule' as needed
+
+jobs:
+  update-submodules-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository and submodules
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Update submodules to latest commit
+        run: |
+          git submodule update --remote --recursive
+          git status
+
+      - name: Run custom script
+        run: |
+          ./update.py
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Updated submodules and ran custom script [CI]" || echo "No changes to commit"
+          mkdir foobar
+          echo ok > foobar/hi
+
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: "release-$(date +%Y%m%d%H%M%S)" # Use a timestamp-based tag
+          name: "Release $(date +%Y-%m-%d %H:%M:%S)"
+          commit: "HEAD" # Ensure the release corresponds to the latest commit
+          artifacts: "foobar/*" # Include the contents of the 'foobar' directory
+          draft: false
+          prerelease: false
+
