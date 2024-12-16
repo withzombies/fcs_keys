@@ -34,11 +34,16 @@ jobs:
           git commit -m "Updated submodules and ran custom script [CI]" || echo "No changes to commit"
           mkdir foobar
           echo ok > foobar/hi
+          echo Tag "v$(date +%Y%m%d%H%M%S)"
+
+      - name: Generate tag
+        id: generate_tag
+        run: echo "TAG=v$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV  # Saves the tag in GitHub environment
 
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
-          tag: "v$(date +%Y%m%d%H%M%S)" # Use a timestamp-based tag
+          tag: "v{{ env.TAG }}"
           name: "Release $(date +%Y-%m-%d %H:%M:%S)"
           commit: main
           artifacts: "foobar/*" # Include the contents of the 'foobar' directory
