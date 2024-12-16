@@ -38,9 +38,9 @@ jobs:
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
-          tag: "release-$(date +%Y%m%d%H%M%S)" # Use a timestamp-based tag
+          tag: "v$(date +%Y%m%d%H%M%S)" # Use a timestamp-based tag
           name: "Release $(date +%Y-%m-%d %H:%M:%S)"
-          commit: "HEAD" # Ensure the release corresponds to the latest commit
+          commit: main
           artifacts: "foobar/*" # Include the contents of the 'foobar' directory
           draft: false
           prerelease: false
