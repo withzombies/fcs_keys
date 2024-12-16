@@ -6,12 +6,9 @@ on:
 jobs:
   update-submodules-and-release:
     runs-on: ubuntu-latest
-
     permissions:
       contents: write
-
     steps:
-      # Checkout the repository and submodules
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
@@ -35,18 +32,16 @@ jobs:
           mkdir foobar
           echo ok > foobar/hi
           echo Tag "v$(date +%Y%m%d%H%M%S)"
-
-      - name: Generate tag
-        id: generate_tag
-        run: echo "TAG=v$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV  # Saves the tag in GitHub environment
+          ls foobar
+          echo "TAG=v$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV  # Saves the tag in GitHub environment
 
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
-          tag: "v{{ env.TAG }}"
+          tag: "v1.0.0"
           name: "Release $(date +%Y-%m-%d %H:%M:%S)"
           commit: main
-          artifacts: "foobar/*" # Include the contents of the 'foobar' directory
+          artifacts: "foobar/*"
           draft: false
           prerelease: false
 
