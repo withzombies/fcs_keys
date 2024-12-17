@@ -1,5 +1,0 @@
-[submodule "appledb"]
-	path = appledb
-	url = https://github.com/littlebyteorg/appledb.git
-    branch = main
-	update = checkout
