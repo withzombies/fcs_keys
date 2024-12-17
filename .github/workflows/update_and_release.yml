@@ -15,24 +15,20 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
       - name: Run custom script
         working-directory: /github/workspace
         run: |
+          ipsw version
           apt-get update
           apt-get install -y git
-          ipsw version
-          env
+          git clone https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          cd `basename ${GITHUB_REPOSITORY}`
           mkdir -p ${HOME}/.config/
-          ln -s /github/workspace ${HOME}/.config/ipsw
+          ln -s ${PWD} ${HOME}/.config/ipsw
           ipsw dl appledb --os macOS --version '15.0 beta 2' --fcs-keys-json --output /tmp --confirm
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git clone https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-          echo git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-          echo git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
           git status
           git add appledb
           git commit -m "Automatic update" || echo "No changes to commit"
