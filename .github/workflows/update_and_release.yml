@@ -13,7 +13,6 @@ jobs:
       options: --workdir /github/workspace -v ${{ github.workspace }}:/github/workspace
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      GITHUB_REPOSITORY: ${{ env.GITHUB_REPOSITORY }}
 
     steps:
       - name: Checkout repository
@@ -31,6 +30,7 @@ jobs:
           ipsw dl appledb --os macOS --version '15.0 beta 2' --fcs-keys-json --output /tmp --confirm
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          echo git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
           git status
           git add appledb
