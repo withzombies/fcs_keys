@@ -16,21 +16,40 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: Get new keys
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y git python3 python3-pip python3-requests
+
+      - name: Get new keys and commit
         working-directory: /github/workspace
         run: |
           ipsw version
-          apt-get update
-          apt-get install -y git python3 python3-pip python3-requests
           git clone https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
           cd `basename ${GITHUB_REPOSITORY}`
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           ./update.py
           git add keys
-          git add last_known_commit
           git commit -m "Automatic update" || echo "No changes to commit"
           git push origin HEAD:main
+          echo "TAG=v$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV  # Saves the tag in GitHub environment
+      
+      - name: Delete old releases
+        uses: dev-drprasad/delete-older-releases@v0.2.0
+        with:
+          keep_latest: 0            # Number of latest releases to keep
+
+      - name: Make releases
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ env.TAG }}
+          name: Current Release
+          commit: main
+          artifacts: "fcs_keys/keys"
+          draft: false
+          prerelease: false
+
 #          mkdir -p ${HOME}/.config/
 #          ln -s ${PWD} ${HOME}/.config/ipsw
 #          ipsw dl appledb --os macOS --version '15.0 beta 2' --fcs-keys-json --output /tmp --confirm
