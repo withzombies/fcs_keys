@@ -12,6 +12,7 @@ jobs:
       image: blacktop/ipsw
     steps:
       - name: Run custom script
+        working-directory: /github/workspace
         run: |
           ls /github/workspace
           find /github/workspace
