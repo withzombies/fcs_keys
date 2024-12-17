@@ -34,7 +34,6 @@ jobs:
           git add keys
           git commit -m "Automatic update" || echo "No changes to commit"
           git push origin HEAD:main
-          echo "TAG=v$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV  # Saves the tag in GitHub environment
           # Delete empty files
           rm keys/*/* || true
           tar cjf ../keys.tbz2 keys
@@ -48,7 +47,7 @@ jobs:
       - name: Make releases
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ env.TAG }}
+          tag: v1.0.0
           name: Current Release
           commit: main
           artifacts: keys.tbz2
