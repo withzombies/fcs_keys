@@ -18,9 +18,9 @@ jobs:
       - name: Run custom script
         working-directory: /github/workspace
         run: |
-          ls /
-          ls /github/workspace
-          find /github/workspace
+          git --version
+          which ipsw
+          ipsw version
 
 #      - name: Run custom script
 #        run: |
