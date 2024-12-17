@@ -35,6 +35,8 @@ jobs:
           git commit -m "Automatic update" || echo "No changes to commit"
           git push origin HEAD:main
           echo "TAG=v$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV  # Saves the tag in GitHub environment
+          # Delete empty files
+          rm keys/*/*
           tar cjf ../keys.tbz2 keys
       
       - name: Delete old releases
