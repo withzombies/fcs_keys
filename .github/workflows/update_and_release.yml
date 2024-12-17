@@ -20,12 +20,12 @@ jobs:
         run: |
           apt-get update
           apt-get install -y git
-          git --version
-          which ipsw
           ipsw version
-          mkdir -p /root/.config/
-          ln -s /github/workspace /root/.config/
+          env
+          mkdir -p ${HOME}/.config/
+          ln -s /github/workspace ${HOME}/.config/ipsw
           ipsw dl appledb --os macOS --version '15.0 beta 2' --fcs-keys-json --output /tmp --confirm
+          find /github/workspace/
 
 
 #      - name: Run custom script
