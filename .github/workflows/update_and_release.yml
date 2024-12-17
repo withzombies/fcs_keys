@@ -35,12 +35,13 @@ jobs:
           git commit -m "Automatic update" || echo "No changes to commit"
           git push origin HEAD:main
           echo "TAG=v$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV  # Saves the tag in GitHub environment
-          tar cvjf keys-${TAG}.tbz2 keys
+          tar cjf keys.tbz2 keys
       
       - name: Delete old releases
         uses: dev-drprasad/delete-older-releases@v0.2.0
         with:
-          keep_latest: 0            # Number of latest releases to keep
+          keep_latest: 0
+          delete_tags: true
 
       - name: Make releases
         uses: ncipollo/release-action@v1
@@ -48,7 +49,7 @@ jobs:
           tag: ${{ env.TAG }}
           name: Current Release
           commit: main
-          artifacts: "*/keys-${{ env.TAG }}.tbz2"
+          artifacts: "keys.tbz2"
           draft: false
           prerelease: false
 
