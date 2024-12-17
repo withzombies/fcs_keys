@@ -12,17 +12,18 @@ jobs:
       image: blacktop/ipsw
       options: --workdir /github/workspace -v ${{ github.workspace }}:/github/workspace
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
       - name: Run custom script
         working-directory: /github/workspace
         run: |
+          ls /
           ls /github/workspace
           find /github/workspace
 
-#      - name: Checkout repository
-#        uses: actions/checkout@v3
-#        with:
-#          submodules: recursive
-#
 #      - name: Run custom script
 #        run: |
 #          ./update.py
