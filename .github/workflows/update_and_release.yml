@@ -3,6 +3,7 @@ name: Update Keys and Create Release
 on:
   schedule:
     - cron: "42 * * * *"
+  workflow_dispatch:
 
 jobs:
   update-keys-and-release:
