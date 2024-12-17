@@ -10,6 +10,7 @@ jobs:
       contents: write
     container:
       image: blacktop/ipsw
+      options: --workdir /github/workspace -v ${{ github.workspace }}:/github/workspace
     steps:
       - name: Run custom script
         working-directory: /github/workspace
