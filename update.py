@@ -14,7 +14,7 @@ import traceback
 REPO_OWNER = "littlebyteorg"
 REPO_NAME = "appledb"
 SUPPORTED_OSES = ["iOS", "iPadOS"]
-MIN_BUILD_VER = 21
+MIN_BUILD_VER = 22
 KEYS_DIR = "keys"
 
 

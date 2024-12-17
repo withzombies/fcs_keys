@@ -1,7 +1,8 @@
 name: Update Submodules and Create Release
 
 on:
-  workflow_dispatch: # Trigger manually or change to 'push'/'schedule' as needed
+  schedule:
+    - cron: "42 * * * *"
 
 jobs:
   update-submodules-and-release:
