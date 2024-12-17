@@ -1,11 +1,11 @@
-name: Update Submodules and Create Release
+name: Update Keys and Create Release
 
 on:
   schedule:
     - cron: "42 * * * *"
 
 jobs:
-  update-submodules-and-release:
+  update-keys-and-release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
