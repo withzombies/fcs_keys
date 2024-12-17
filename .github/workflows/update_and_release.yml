@@ -11,6 +11,9 @@ jobs:
     container:
       image: blacktop/ipsw
       options: --workdir /github/workspace -v ${{ github.workspace }}:/github/workspace
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Pass the GitHub token into the container
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -26,6 +29,14 @@ jobs:
           ln -s /github/workspace ${HOME}/.config/ipsw
           ipsw dl appledb --os macOS --version '15.0 beta 2' --fcs-keys-json --output /tmp --confirm
           find /github/workspace/
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          git status
+          git add appledb
+          git commit -m "Automatic update" || echo "No changes to commit"
+          git push origin HEAD:main
+
 
 
 #      - name: Run custom script
