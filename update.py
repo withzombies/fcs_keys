@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 
+import hashlib
 import os
 import re
 import requests
@@ -48,7 +49,13 @@ def download_build_keys(apple_os: str, build: str):
             for file in sorted(files):
                 if file.endswith(".pem"):
                     os.makedirs(key_dir, exist_ok=True)
-                    shutil.copy(f"{root}/{file}", key_dir)
+                    # The filename that 'ipsw' has used suggests it only applies to a specific
+                    # .dmg, but it seems to apply to the entire set. So instead we'll store this
+                    # as a hash so that we don't store duplicates and we don't give off the
+                    # impression it's only for one file
+                    with open(f"{root}/{file}", "rb") as f:
+                        new_filename = hashlib.md5(f.read()).hexdigest()
+                        shutil.copy(f"{root}/{file}", f"{key_dir}/{new_filename}.pem")
 
         if os.path.exists(key_dir) is False:
             # There were no keys obtained, create a file to indicate a successful attempt
