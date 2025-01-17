@@ -59,6 +59,8 @@ jobs:
           tag: v1.0.0
           name: Current Release
           commit: main
-          artifacts: keys.tbz2\nfcs-keys.json
+          artifacts: |
+            keys.tbz2
+            fcs-keys.json
           draft: false
           prerelease: false
