@@ -69,6 +69,8 @@ def download_build_keys(apple_os: str, build: str):
 
 
 def main():
+    update_fcs_keys_json()
+
     r = requests.get("https://api.appledb.dev/ios/index.json")
     r.raise_for_status()
 
