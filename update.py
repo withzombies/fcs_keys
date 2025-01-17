@@ -19,6 +19,7 @@ KEYS_DIR = "keys"
 
 def update_fcs_keys_json():
     for apple_os in ["iOS", "iPadOS", "macOS"]:
+        print(f"Updating fcs_keys.json for {apple_os}")
         subprocess.check_call(["ipsw", "dl", "appledb", "--os", apple_os, "--fcs-keys-json", "--latest", "--confirm"])
 
 
