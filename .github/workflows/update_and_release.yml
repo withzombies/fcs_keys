@@ -32,12 +32,14 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           ./update.py
           git add keys
+          git add fcs-keys.json
           if git commit -m "Automatic update"; then
             echo COMMIT_STATUS=success >> $GITHUB_ENV
             git push origin HEAD:main
-            # Delete empty files
-            rm keys/*/* || true
+            # Delete empty directories
+            rmdir keys/*/* || true
             tar cjf ../keys.tbz2 keys
+            cp fcs-keys.json ..
           else
             echo COMMIT_STATUS=failure >> $GITHUB_ENV
             echo "No changes to commit"
@@ -57,6 +59,6 @@ jobs:
           tag: v1.0.0
           name: Current Release
           commit: main
-          artifacts: keys.tbz2
+          artifacts: keys.tbz2 fcs-keys.json
           draft: false
           prerelease: false

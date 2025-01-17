@@ -17,6 +17,11 @@ MIN_BUILD_VER = 22
 KEYS_DIR = "keys"
 
 
+def update_fcs_keys_json():
+    for apple_os in ["iOS", "iPadOS", "macOS"]:
+        subprocess.check_call(["ipsw", "dl", "appledb", "--os", apple_os, "--fcs-keys-json", "--latest", "--confirm"])
+
+
 def download_build_keys(apple_os: str, build: str):
     os_dir = f"{KEYS_DIR}/{apple_os}"
     os.makedirs(os_dir, exist_ok=True)
