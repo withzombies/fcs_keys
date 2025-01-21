@@ -20,7 +20,9 @@ KEYS_DIR = "keys"
 def update_fcs_keys_json():
     for apple_os in ["iOS", "iPadOS", "macOS"]:
         print(f"Updating fcs_keys.json for {apple_os}")
-        subprocess.check_call(["ipsw", "dl", "appledb", "--os", apple_os, "--fcs-keys-json", "--latest", "--confirm"])
+        # This fails for new "latest" releases that don't use fcs keys
+        # subprocess.check_call(["ipsw", "dl", "appledb", "--os", apple_os, "--fcs-keys-json", "--latest", "--confirm"])
+        subprocess.call(["ipsw", "dl", "appledb", "--os", apple_os, "--fcs-keys-json", "--latest", "--confirm"])
 
 
 def download_build_keys(apple_os: str, build: str):
