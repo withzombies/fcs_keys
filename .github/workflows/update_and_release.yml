@@ -47,7 +47,7 @@ jobs:
 
       - name: Delete old releases
         uses: dev-drprasad/delete-older-releases@v0.2.0
-        if: env.COMMIT_STATUS == 'success'
+        #if: env.COMMIT_STATUS == 'success'
         with:
           keep_latest: 0
           delete_tags: true
