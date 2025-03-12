@@ -45,6 +45,14 @@ jobs:
           tar cjf ../keys.tbz2 keys
           cp fcs-keys.json ..
 
+      - name: Check if tag exists
+        id: check_tag
+        uses: mukunku/tag-exists-action@v1.0.0
+        with:
+          tag: ${{ github.event.inputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Delete old releases
         uses: dev-drprasad/delete-older-releases@v0.2.0
         if: env.COMMIT_STATUS == 'success'
@@ -54,7 +62,7 @@ jobs:
 
       - name: Make releases
         uses: ncipollo/release-action@v1
-        if: env.COMMIT_STATUS == 'success'
+        if: env.COMMIT_STATUS == 'success' || steps.check_tag.outputs.exists == 'false'
         with:
           tag: v1.0.0
           name: Current Release
