@@ -49,7 +49,7 @@ jobs:
         id: check_tag
         uses: mukunku/tag-exists-action@v1.0.0
         with:
-          tag: ${{ github.event.inputs.version }}
+          tag: v1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
